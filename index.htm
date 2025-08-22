@@ -108,6 +108,21 @@
       line-height: 1.45;
       font-family: 'Montserrat', 'Segoe UI', sans-serif;
       word-break: break-word;
+      margin-bottom: 0.7em;
+      min-height: 6em;
+    }
+    .line {
+      opacity: 0;
+      transform: translateY(18px) scale(0.98);
+      filter: blur(6px);
+      transition: all 0.7s cubic-bezier(.7,.1,.3,1);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .line.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1.01);
+      filter: blur(0px);
     }
     em {
       color: #cc2119;
@@ -212,10 +227,10 @@
       <div class="envelope"></div>
       <img class="gif-top" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2lhc3F6bGJwZGJ5YmNzazdoNHZlN3p0Y2JhZ2VkdGZnOWRwYmhrcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5ubHiAtBlv9lSlhVld/giphy.gif" alt="Love GIF">
       <h1>
-        <span>Әрбір таңым, әр күнім – сен деп атқан,</span>
-        <span>Аспандағы айымсың жарқыраған.</span>
-        <span>Күндей жарықсың сен маған,</span>
-        <span>Сен барда өмір гүлім боп жайнаған.</span>
+        <span class="line">Әрбір таңым, әр күнім – сен деп атқан,</span>
+        <span class="line">Аспандағы айымсың жарқыраған.</span>
+        <span class="line">Күндей жарықсың сен маған,</span>
+        <span class="line">Сен барда өмір гүлім боп жайнаған.</span>
       </h1>
       <div class="svg-bottom">
         <svg xmlns="http://www.w3.org/2000/svg" id="svg5" version="1.1" viewBox="-5 -5 278 56">
@@ -256,6 +271,16 @@
 
       createHeart(r_size, r_left, r_bg, r_time);
     }, 700);
+
+    // Анимированное появление текста по строчкам
+    window.addEventListener('DOMContentLoaded', function() {
+      const lines = document.querySelectorAll('h1 .line');
+      lines.forEach((line, i) => {
+        setTimeout(() => {
+          line.classList.add('visible');
+        }, 800 + i * 700); // Первая появляется через 0.8 сек, дальше каждая +0.7 сек
+      });
+    });
   </script>
 </body>
 </html>
