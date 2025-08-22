@@ -192,71 +192,16 @@
       top: 0;
       right: -50%;
     }
-    .slider {
-      width: 95%;
-      max-width: 340px;
-      height: 165px;
-      overflow: hidden;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(255,100,150,0.13);
-      background: #fff;
-      margin: 16px auto 0 auto;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      position: relative;
-      touch-action: pan-x;
-    }
-    .slides {
-      display: flex;
-      transition: transform 1s cubic-bezier(.7,.1,.3,1);
-      height: 100%;
-    }
-    .slide {
-      min-width: 100%;
-      height: 100%;
-      user-select: none;
-      object-fit: cover;
-      pointer-events: none;
-    }
-    .slider-nav {
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 7px;
-      z-index: 3;
-    }
-    .slider-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ff96c2;
-      opacity: 0.6;
-      transition: opacity .3s;
-      cursor: pointer;
-      border: none;
-      outline: none;
-      appearance: none;
-    }
-    .slider-dot.active {
-      opacity: 1;
-      background: #cc2119;
-    }
-
     @media (max-width: 600px) {
       .card { min-height: 13em; padding: 14vw 2vw 22vw 2vw; max-width: 98vw;}
       .gif-top { max-width: 110px;}
       .svg-bottom { max-width: 95vw;}
       h1 { font-size: 0.98em;}
-      .slider { max-width: 99vw; height: 110px;}
     }
     @media (max-width: 400px) {
       .card { padding: 7vw 2vw 18vw 2vw;}
       .gif-top { max-width: 80px;}
       h1 { font-size: .87em;}
-      .slider { height: 75px;}
     }
   </style>
 </head>
@@ -287,14 +232,6 @@
       </div>
       <div class="from">Этот подарок от меня, Жаным</div>
       <div class="heart"></div>
-      <div class="slider">
-        <div class="slides">
-          <img class="slide" src="https://files.catbox.moe/9u1n63.jpg" alt="Фото 1">
-          <img class="slide" src="https://files.catbox.moe/wi503k.jpg" alt="Фото 2">
-          <img class="slide" src="https://files.catbox.moe/kujiba.jpg" alt="Фото 3">
-        </div>
-        <div class="slider-nav"></div>
-      </div>
     </div>
   </div>
   <script>
@@ -319,48 +256,6 @@
 
       createHeart(r_size, r_left, r_bg, r_time);
     }, 700);
-
-    // Слайдер авто и свайп
-    const slides = document.querySelector('.slides');
-    const slideImages = document.querySelectorAll('.slide');
-    const nav = document.querySelector('.slider-nav');
-    let current = 0;
-    let timer = null;
-    const INTERVAL = 2500; // 2.5 сек
-
-    // Навигационные точки
-    for(let i=0; i<slideImages.length; i++) {
-      let dot = document.createElement('button');
-      dot.className = 'slider-dot' + (i===0 ? ' active' : '');
-      dot.addEventListener('click', () => goToSlide(i));
-      nav.appendChild(dot);
-    }
-    function goToSlide(n) {
-      current = n;
-      slides.style.transform = `translateX(${-n*100}%)`;
-      document.querySelectorAll('.slider-dot').forEach((d,i)=>d.classList.toggle('active',i===n));
-      resetTimer();
-    }
-    function nextSlide() {
-      current = (current+1)%slideImages.length;
-      goToSlide(current);
-    }
-    function resetTimer() {
-      clearInterval(timer);
-      timer = setInterval(nextSlide, INTERVAL);
-    }
-    // Свайп руками на мобильном
-    let startX = 0;
-    slides.addEventListener('touchstart', e => {
-      startX = e.touches[0].clientX;
-    });
-    slides.addEventListener('touchend', e => {
-      let dx = e.changedTouches[0].clientX - startX;
-      if(dx > 40) goToSlide((current-1+slideImages.length)%slideImages.length);
-      else if(dx < -40) nextSlide();
-    });
-    // Запуск
-    resetTimer();
   </script>
 </body>
 </html>
